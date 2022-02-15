@@ -24,10 +24,12 @@ const capitalized = string => string[0].toUpperCase() + string.slice(1).toLowerC
 app.locals.title = `${capitalized(projectName)}- Generated with Ironlauncher`;
 
 // bind user to view - locals
-app.use('/', (req, res, next) => {
-  res.locals.user = req.session.user
-  next()
-})
+// app.use((req, res, next) => {
+//   res.locals.user = req.session.user  <------------- ESTA FEOOOOO
+//   next()
+// })
+const personalRouter = require("./routes/personal.routes");
+app.use("/", personalRouter);
 
 // 👇 Start handling routes here
 const index = require('./routes/index');

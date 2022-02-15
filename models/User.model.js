@@ -22,6 +22,10 @@ const userSchema = new Schema(
     passwordHash: {
       type: String,
       required: [true, "Password is required."]
+    },
+    imgUrl: {
+      type: String,
+      default: "https://p7.hiclipart.com/preview/782/114/405/5bbc3519d674c.jpg"
     }
   },
   {

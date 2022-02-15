@@ -76,32 +76,32 @@ router.post("/signup", isLoggedOut, (req, res, next) => {
 ////////////////////////////////////////////////////////////////////////
 
 // .get() route ==> to display the login form to users
-router.get("/login", isLoggedOut, (req, res) => res.render("auth/login"));
-
+router.route("/login", isLoggedOut)
+.get((req, res) => res.render("auth/login"))
 // .post() login route ==> to process form data
-router.post("/login", isLoggedOut, (req, res, next) => {
+.post((req, res, next) => {
   const { email, password } = req.body;
-
+  
   if (email === "" || password === "") {
     res.render("auth/login", {
       errorMessage: "Please enter both, email and password to login."
     });
     return;
   }
-
+  
   User.findOne({ email })
-    .then((user) => {
-      if (!user) {
-        res.render("auth/login", { errorMessage: "Email is not registered. Try with other email." });
-        return;
-      } else if (bcryptjs.compareSync(password, user.passwordHash)) {
-        req.session.user = user;
-        res.redirect("/user-profile");
-      } else {
-        res.render("auth/login", { errorMessage: "Incorrect password." });
-      }
-    })
-    .catch((error) => next(error));
+  .then((user) => {
+    if (!user) {
+      res.render("auth/login", { errorMessage: "Email is not registered. Try with other email." });
+      return;
+    } else if (bcryptjs.compareSync(password, user.passwordHash)) {
+      req.session.currentUserId = user._id;
+      res.redirect("/user-profile");
+    } else {
+      res.render("auth/login", { errorMessage: "Incorrect password." });
+    }
+  })
+  .catch((error) => next(error));
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -114,7 +114,13 @@ router.post("/logout", isLoggedIn, (req, res) => {
 });
 
 router.get("/user-profile", isLoggedIn, (req, res) => {
-  res.render("users/user-profile");
+  const id = req.session.currentUserId;
+
+  User.findById(id)
+  .then((user)=>{
+    res.render("users/user-profile", {user});
+  })
 });
 
+//--------------------------------------------------------console.log("GET userprofile ------------>>>>>>>>>>>>>>>")
 module.exports = router;
