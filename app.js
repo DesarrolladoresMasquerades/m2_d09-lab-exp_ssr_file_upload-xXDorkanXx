@@ -28,8 +28,12 @@ app.locals.title = `${capitalized(projectName)}- Generated with Ironlauncher`;
 //   res.locals.user = req.session.user  <------------- ESTA FEOOOOO
 //   next()
 // })
-const personalRouter = require("./routes/personal.routes");
-app.use("/", personalRouter);
+
+const personalRoutes = require("./routes/personal.routes");
+app.use("/", personalRoutes);
+
+const thePostRoutes = require("./routes/post.routes");
+app.use("/", thePostRoutes);
 
 // 👇 Start handling routes here
 const index = require('./routes/index');
