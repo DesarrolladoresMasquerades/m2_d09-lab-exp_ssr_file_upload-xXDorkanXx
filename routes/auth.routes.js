@@ -113,14 +113,5 @@ router.post("/logout", isLoggedIn, (req, res) => {
   res.redirect("/");
 });
 
-router.get("/user-profile", isLoggedIn, (req, res) => {
-  const id = req.session.currentUserId;
-
-  User.findById(id)
-  .then((user)=>{
-    res.render("users/user-profile", {user});
-  })
-});
-
 //--------------------------------------------------------console.log("GET userprofile ------------>>>>>>>>>>>>>>>")
 module.exports = router;
