@@ -39,7 +39,6 @@ router.get("/post/:id/details", (req, res)=>{
         Post.findOne({creatorId: id})
         .then((post)=>{
             console.log(post);
-            //const objPost = {post}
             const date = post.createdAt.toISOString().slice(0,10);
             res.render("posts/post-details", {user, date})
         })
