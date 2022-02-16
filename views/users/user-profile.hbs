@@ -1,6 +1,15 @@
 {{#if user}}
     <h2>Welcome, {{ user.username }}!</h2>
     <p>This is your profile page my friend! And your email is: {{ user.email }}</p>
+    <img src="{{user.imgUrl}}" alt="user avatar" width="80">
+
+    <form action="/uploadImg" method="POST" enctype="multipart/form-data">
+        <label> Upload your image profile.
+            <input type="file" name="imgUrl"/>
+        </label>
+
+        <button type="submit">Save</button>
+    </form>
 {{else}}
     <p>Still no logged in user, sorry!</p>
 {{/if}}
